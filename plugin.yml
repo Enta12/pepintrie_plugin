@@ -1,0 +1,8 @@
+name: pepintrie_plugin
+version: 1.0
+author: Enta12
+main: fr.pepintrie.pepintrie_plugin.Main
+commands:
+  licence:
+    description: Change paper into shop licence
+    permission: licence.use
