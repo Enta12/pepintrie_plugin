@@ -1,13 +1,12 @@
 package fr.pepintrie.pepintrieplugin.gods;
 
-public class NetherGod extends God{
-	
-	
-	public NetherGod(String name) {
-		setName(name);
-		color = "§4";
-	}
+public class SeaGod extends God{
 
+	public SeaGod(String name) {
+		setName(name);
+		color = "§9";
+	}
+	
 	@Override
 	public String getColorName() {
 		return color + name;
@@ -15,7 +14,9 @@ public class NetherGod extends God{
 
 	@Override
 	public String getType() {
-		return color + "nether";
+		return color + "sea";
 	}
+
+	
 
 }

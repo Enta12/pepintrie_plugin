@@ -8,9 +8,9 @@ import org.bukkit.entity.Player;
 
 public abstract class God {
 	
-	protected static String[] types = {"nether"};
+	protected static String[] types = {"nether", "sea"};
 	
-	protected List<Location> temples = new ArrayList<>();
+	protected List<Location> altars = new ArrayList<>();
 	protected List<Player> believer = new ArrayList<>();
 	protected Player priest;
 	//protected List<Relic> relics = new ArrayList<>();
@@ -36,18 +36,18 @@ public abstract class God {
 		return false;
 	}
 
-	public static String getTypes() {
-		String str = "";
-		for(int i = 0; i < types.length; i++) {
-			str += types[i];
-			if(!((i+1)==types.length)) {
-				str += "|";
-			}
-		}
-		return str;
+	public static String[] getTypes() {
+		return types;
 	}
 
 	public abstract String getType();
-	 
+	
+	public void addAnAltar(Location altar) {
+		if(altars.contains(altar))return;
+		altars.add(altar);
+	}
 
+	public  List<Location> getAltars() {
+		return altars;
+	}
 }
