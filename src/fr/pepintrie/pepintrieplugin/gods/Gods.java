@@ -6,6 +6,8 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
+import fr.pepintrie.pepintrieplugin.gods.objects.Altar;
+
 public class Gods {
 	private ArrayList<God> gods = new ArrayList<>();
 	
@@ -108,17 +110,28 @@ public class Gods {
 
 	public void removeAPossibleAltar(Location possibleAltar) {
 		for(God god : gods) {
-			for(Location altar : god.getAltars()) {
-				if(altar.getBlockX() == possibleAltar.getBlockX() && altar.getBlockY() == possibleAltar.getBlockY() && altar.getBlockZ() == possibleAltar.getBlockZ() && altar.getWorld() == possibleAltar.getWorld()) {
-					Bukkit.broadcastMessage("before : " + god.getAltars().size());
+			for(Altar altar : god.getAltars()) {
+				if(altar.getLocation().getBlockX() == possibleAltar.getBlockX() && altar.getLocation().getBlockY() == possibleAltar.getBlockY() && altar.getLocation().getBlockZ() == possibleAltar.getBlockZ() && altar.getLocation().getWorld() == possibleAltar.getWorld()) {
 					god.getAltars().remove(altar);
-					Bukkit.broadcastMessage("after : " + god.getAltars().size());
 					if(god.getAltars().size() == 0) {
-						Bukkit.broadcastMessage("Le dernier temple de " + god.getColorName() + "§7 est tombé, et avec lui " +  god.getColorName());
+						Bukkit.broadcastMessage("Le dernier temple de " + god.getColorName() + "§f est tombé, et avec lui " +  god.getColorName());
 						gods.remove(god);
 					}
 				}
 			}
 		}
 	}
+	
+	public Altar getAltarFromAltarAndGodName(String altarName, String godName) {
+		if(getAGod(godName) != null) {
+				for(Altar altar :getAGod(godName).getAltars()) {
+					if(altar.getName().equalsIgnoreCase(altarName)) {
+						return altar;
+				}
+			}
+		}
+		return null;
+	}
+	
+	
 }

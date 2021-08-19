@@ -6,11 +6,13 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import fr.pepintrie.pepintrieplugin.gods.objects.Altar;
+
 public abstract class God {
 	
 	protected static String[] types = {"nether", "sea"};
 	
-	protected List<Location> altars = new ArrayList<>();
+	protected List<Altar> altars = new ArrayList<>();
 	protected List<Player> believer = new ArrayList<>();
 	protected Player priest;
 	//protected List<Relic> relics = new ArrayList<>();
@@ -42,12 +44,24 @@ public abstract class God {
 
 	public abstract String getType();
 	
-	public void addAnAltar(Location altar) {
-		if(altars.contains(altar))return;
-		altars.add(altar);
+	public void addAnAltar(Location location, String name) {
+		for(Altar altar : altars) {
+			if(name.equalsIgnoreCase(altar.getName()))return;
+		}
+		altars.add(new Altar(name, location));
 	}
 
-	public  List<Location> getAltars() {
+	public  List<Altar> getAltars() {
 		return altars;
+	}
+	
+
+	public String altarsToString() {
+		String str = "Altars of " + getColorName() + "§f are : ";
+		for(int i = 0; i < altars.size(); i++) {
+			str += altars.get(i).getName();
+			if (i+1 < altars.size()) str += ", ";
+		}
+		return str;	
 	}
 }

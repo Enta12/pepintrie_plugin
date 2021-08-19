@@ -21,7 +21,7 @@ public class GodsCommands implements CommandExecutor{
 			if (sender instanceof Player) {
 				// /gods
 				if(args.length==0) {
-					sender.sendMessage("/gods <create | rename | delete>");
+					sender.sendMessage("/gods <create | rename | delete | list>");
 					return true;
 				}
 				else {

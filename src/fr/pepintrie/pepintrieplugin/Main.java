@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import fr.pepintrie.pepintrieplugin.command.AltarsCommands;
 import fr.pepintrie.pepintrieplugin.command.GodsCommands;
 import fr.pepintrie.pepintrieplugin.command.LicenceCommand;
 import fr.pepintrie.pepintrieplugin.gods.Gods;
@@ -20,6 +21,7 @@ public class Main extends JavaPlugin{
 		gods = new Gods(new ArrayList<>());
 		getCommand("licence").setExecutor(new LicenceCommand());
 		getCommand("gods").setExecutor(new GodsCommands(this));
+		getCommand("altars").setExecutor(new AltarsCommands(this));
 		getServer().getPluginManager().registerEvents(new GodsListerners(this), this);
 		
 		/*

@@ -20,3 +20,15 @@ commands:
     list:
       description : commands to list gods in the game
       permission: gods.list
+  altars:
+    list:
+      description: list altar of a god
+      permission: altar.list
+    set:
+      size:
+        description: set size of an altar
+        permission: altar.size
+    get:
+      size:
+        description: get size of an altar
+        permission: altar.size

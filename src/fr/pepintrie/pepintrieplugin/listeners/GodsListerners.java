@@ -1,6 +1,5 @@
 package fr.pepintrie.pepintrieplugin.listeners;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -25,7 +24,6 @@ public class GodsListerners implements Listener{
 
 	@EventHandler()
 	public void onPlaceClick(BlockPlaceEvent event) {
-		//Material.ANCIENT_DEBRIS Material.RED_CANDLE
 		if(event.getBlock().getType() == Material.RED_CANDLE) {
 			Location candleLocation = event.getBlock().getLocation();
 			isATemple(Material.NETHERITE_BLOCK, candleLocation, "nether");
@@ -58,14 +56,14 @@ public class GodsListerners implements Listener{
 	
 	private static void signInstructions(Location signLocation, String type, Location godBlockLocation) {
 		Sign sign  = (Sign)signLocation.getBlock().getState();
-		if(sign.getLine(0).equalsIgnoreCase("[GODS]") && !(sign.getLine(1) == "")) {
+		if(sign.getLine(0).equalsIgnoreCase("[GODS]") && !(sign.getLine(1) == "") && !(sign.getLine(2) == "")) {
 			God god = main.getGods().getAGod(sign.getLine(1));
 			if(god != null) {
-				main.getGods().getAGod(sign.getLine(1)).addAnAltar(godBlockLocation);
+				main.getGods().getAGod(sign.getLine(1)).addAnAltar(godBlockLocation, sign.getLine(2));
 			}
 			else{
 				main.getGods().createAGod(type, sign.getLine(1));
-				main.getGods().getAGod(sign.getLine(1)).addAnAltar(godBlockLocation);
+				main.getGods().getAGod(sign.getLine(1)).addAnAltar(godBlockLocation, sign.getLine(2));
 			}
 		}
 	}
