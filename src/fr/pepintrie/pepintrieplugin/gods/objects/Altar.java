@@ -1,14 +1,14 @@
 package fr.pepintrie.pepintrieplugin.gods.objects;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+
+import fr.pepintrie.pepintrieplugin.gods.God;
 
 public class Altar {
 	private int size;
@@ -17,10 +17,10 @@ public class Altar {
 	private Location location;
 	private List<ArrayList<Goal>> goals = new ArrayList<ArrayList<Goal>>();
 	private ArrayList<Quest> quests = new ArrayList<>();
-	private String colorName;
+	private God god;
 	
-	public Altar(Player player, Location location, String colorName) {
-		this.colorName = colorName;
+	public Altar(Player player, Location location, God god) {
+		this.god = god;
 		this.playerName = player.getName();
 		this.playerUUID = player.getUniqueId();
 		this.location = location;
@@ -79,13 +79,14 @@ public class Altar {
 				boolean noQuest = true;
 				for(Goal goal : goals.get(size)) {
 					if(!goal.getIsOk() && !goal.getIsAvailable()) {
-						player.sendMessage(colorName +" : §fJe veux que tu améliore mon temple en " + goal.getDescription());
-						quests.add(new Quest(random.nextInt((size+1)*10),goal.getDescription(), quests.size()));
+						player.sendMessage(god.getColorName() +" : §fJe veux que tu améliore mon temple en " + goal.getDescription());
+						goal.setIsAvailable();
+						quests.add(new Quest(random.nextInt((size+1)*10),goal.getDescription(), quests.size(), true));
 						noQuest = false;
 						break;
 					}
 				}
-				if (noQuest) player.sendMessage(colorName + " : §fAs tu construit tout ce que je t'avais demandé ? ");
+				if (noQuest) player.sendMessage(god.getColorName() + " : §fAs tu construit tout ce que je t'avais demandé ? ");
 			}
 		}
 		else if (event <50) {
@@ -100,6 +101,28 @@ public class Altar {
 		else {
 			//something really bad
 		}
+	}
+
+	public boolean finish(int id) {
+		for(Quest quest : quests) {
+			if(quest.getId() == id) {
+				if(quest.getIsAnAltarGoal()) {
+					boolean all = false;
+					for(Goal goal : goals.get(size)) {
+						if(goal.getDescription().equals(quest.getDescription())) {
+							goal.setIsOk();
+						}
+					}
+				}
+				quests.remove(quest);
+				god.addPower(quest.getReward());
+			}
+		}
+		return false;
+	}
+
+	public String getPlayerName() {
+		return playerName;
 	}
 		
 }

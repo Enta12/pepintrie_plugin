@@ -82,7 +82,7 @@ public abstract class God {
 
 	
 	public void addAnAltar(Location location, Player player) {
-		Altar altar = new Altar(player, location, getColorName());
+		Altar altar = new Altar(player, location, this);
 		altars.add(altar);
 		setGoals(altar);
 	}
@@ -104,6 +104,11 @@ public abstract class God {
 
 	public void addABeliever(UUID uniqueId) {
 		believerUUID.add(uniqueId);
+		
+	}
+
+	public void addPower(int power) {
+		this.power += power;
 		
 	}
 }

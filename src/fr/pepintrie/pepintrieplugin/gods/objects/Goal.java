@@ -22,4 +22,14 @@ public class Goal{
 	public boolean getIsAvailable() {
 		return isAvailable;
 	}
+
+	public void setIsOk() {
+		isOk = true;
+		
+	}
+
+	public void setIsAvailable() {
+		isAvailable = true;
+		
+	}
 }

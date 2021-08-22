@@ -30,7 +30,7 @@ public class QuestsCommands implements CommandExecutor {
 							if(altar != null) {
 								Bukkit.broadcastMessage("Linked quests are : ");
 								for(Quest quest : altar.getQuests()) {
-									Bukkit.broadcastMessage(quest.getDescription());
+									Bukkit.broadcastMessage(quest.getId() + " :" + quest.getDescription());
 								}
 								return true;
 							}
@@ -48,10 +48,11 @@ public class QuestsCommands implements CommandExecutor {
 					else if(args[0].equalsIgnoreCase("create")) {
 						if(args.length == 4) {
 							if(main.getGods().getAGod(args[1]) != null) {
-								if(main.getGods().getAltarFromAltarAndGodName(args[2], args[1]) != null) {
+								Altar altar =main.getGods().getAltarFromAltarAndGodName(args[2], args[1]);
+								if(altar != null) {
 									boolean notPlayer = true;
 									for(Player player : Bukkit.getOnlinePlayers()) {
-										if(player.getName().equalsIgnoreCase(args[3])) {
+										if(player.getName().equalsIgnoreCase(altar.getPlayerName())) {
 											main.getGods().getAltarFromAltarAndGodName(args[2], args[1]).createNewQuest(player);
 											return true;
 										}
@@ -76,10 +77,33 @@ public class QuestsCommands implements CommandExecutor {
 							return false;
 						}
 					}
+					else if(args[0].equalsIgnoreCase("finish")) {
+						if(args.length == 4) {
+							if(main.getGods().getAGod(args[1]) != null) {
+								Altar altar = main.getGods().getAltarFromAltarAndGodName(args[2], args[1]);
+								if(altar != null) {
+									altar.finish(Integer.valueOf(args[3]));
+									return true;
+								}
+								else {
+									Bukkit.broadcastMessage(args[2] + " is not an altar");
+									return false;
+								}
+							}
+							else {
+								Bukkit.broadcastMessage(args[1] + " is not a god");
+								return false;
+							}
+						}
+						else {
+							Bukkit.broadcastMessage("/finish <god> <altar> <quest id>");
+							return false;
+						}
+					}
 				}
 			}
 		}
-		Bukkit.broadcastMessage("/quests < list | create >");
+		Bukkit.broadcastMessage("/quests < list | create | finish >");
 		return false;
 	}
 

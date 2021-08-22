@@ -43,18 +43,22 @@ public class Gods {
 	
 	public boolean createAGod(GodsType type, String name) {
 		if(getGodId(name) == -1) {
+			God god;
 			if(type == GodsType.NETHER) {
-				gods.add(new NetherGod(name));
-				return true;
+				god = new NetherGod(name);
 			}
 			else if(type == GodsType.SEA) {
-				gods.add(new SeaGod(name));
-				return true;
+				god = new SeaGod(name);
 			}
 			else if(type == GodsType.ECONOMY) {
-				gods.add(new EconomyGod(name));
-				return true;
+				god = new EconomyGod(name);
 			}
+			else {
+				return false;
+			}
+			gods.add(god);
+			Bukkit.broadcastMessage(god.getColorName() + " §f commence un règne");
+			
 		}
 		return false;
 	}

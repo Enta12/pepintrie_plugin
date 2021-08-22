@@ -35,7 +35,10 @@ commands:
   quests:
     list:
       description: list quest of an altar
-      persission: quests.admin
+      permission: quests.admin
     create:
       description: create a quest for a god
-      persission: quests.admin
+      permission: quests.admin
+    finish:
+      description: finish a quest
+      permission: quests.admin
