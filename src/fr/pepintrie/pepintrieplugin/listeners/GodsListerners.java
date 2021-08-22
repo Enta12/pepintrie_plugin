@@ -1,10 +1,13 @@
 package fr.pepintrie.pepintrieplugin.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -12,6 +15,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 import fr.pepintrie.pepintrieplugin.Main;
 import fr.pepintrie.pepintrieplugin.gods.God;
+import fr.pepintrie.pepintrieplugin.gods.GodsType;
 
 
 public class GodsListerners implements Listener{
@@ -26,46 +30,70 @@ public class GodsListerners implements Listener{
 	public void onPlaceClick(BlockPlaceEvent event) {
 		if(event.getBlock().getType() == Material.RED_CANDLE) {
 			Location candleLocation = event.getBlock().getLocation();
-			isATemple(Material.NETHERITE_BLOCK, candleLocation, "nether");
+			isATemple(Material.NETHERITE_BLOCK, candleLocation, GodsType.NETHER, event.getPlayer());
 		}
 		else if(event.getBlock().getType() == Material.BLUE_CANDLE) {
 			Location candleLocation = event.getBlock().getLocation();
-			isATemple(Material.PRISMARINE_BRICKS, candleLocation, "sea");
+			isATemple(Material.PRISMARINE_BRICKS, candleLocation, GodsType.SEA, event.getPlayer());
 		}
+		else if(event.getBlock().getType() == Material.LIME_CANDLE) {
+			Location candleLocation = event.getBlock().getLocation();
+			isATemple(Material.EMERALD_BLOCK, candleLocation, GodsType.ECONOMY, event.getPlayer());
+		}
+		
 	}
 	
-	private static void isATemple(Material godBlockMaterial, Location candleLocation, String type) {
+	private static void isATemple(Material godBlockMaterial, Location candleLocation, GodsType type, Player player) {
 		Location godBlockLocation = new Location(candleLocation.getWorld(), candleLocation.getX(), candleLocation.getY() -1, candleLocation.getZ());
 		if(godBlockLocation.getBlock().getType() == godBlockMaterial) {
 			Location signLocation = findSign(godBlockLocation);
 			if(signLocation != null) {
-				signInstructions(signLocation, type, godBlockLocation);
-				signLocation.getBlock().setType(Material.AIR);switch(type) {
-					case "nether" :
-						signLocation.getWorld().spawnParticle(Particle.PORTAL, signLocation, 1500);
-						break;
-					case "sea":
-						signLocation.getWorld().spawnParticle(Particle.GLOW_SQUID_INK, signLocation, 150);
-						break;
-					default:
-						break;
+				if(type == GodsType.NETHER) {
+					signLocation.getWorld().spawnParticle(Particle.PORTAL, signLocation, 1500);
+					if(signInstructions(signLocation, type, godBlockLocation, player)){
+						signLocation.getWorld().spawnEntity(signLocation, EntityType.WITHER_SKELETON);
+					}
 				}
+				else if(type == GodsType.SEA) {
+					signLocation.getWorld().spawnParticle(Particle.GLOW_SQUID_INK, signLocation, 150);
+					if(!signInstructions(signLocation, type, godBlockLocation, player)) {
+						signLocation.getWorld().spawnEntity(signLocation, EntityType.GUARDIAN);
+					}
+				}
+				else if(type == GodsType.ECONOMY) {
+					signLocation.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, signLocation, 150);
+					if(!signInstructions(signLocation, type, godBlockLocation, player)) {
+						signLocation.getWorld().spawnEntity(signLocation, EntityType.PILLAGER);
+					}
+					
+				}
+				signLocation.getBlock().setType(Material.AIR);
 			}
 		}
 	}
 	
-	private static void signInstructions(Location signLocation, String type, Location godBlockLocation) {
+	private static boolean signInstructions(Location signLocation, GodsType type, Location godBlockLocation, Player player) {
 		Sign sign  = (Sign)signLocation.getBlock().getState();
-		if(sign.getLine(0).equalsIgnoreCase("[GODS]") && !(sign.getLine(1) == "") && !(sign.getLine(2) == "")) {
+		if(sign.getLine(0).equalsIgnoreCase("[GODS]") && !(sign.getLine(1) == "")) {
 			God god = main.getGods().getAGod(sign.getLine(1));
-			if(god != null) {
-				main.getGods().getAGod(sign.getLine(1)).addAnAltar(godBlockLocation, sign.getLine(2));
+			if(main.getGods().playerHaveAGod(player.getUniqueId())) {
+				return false;
 			}
-			else{
-				main.getGods().createAGod(type, sign.getLine(1));
-				main.getGods().getAGod(sign.getLine(1)).addAnAltar(godBlockLocation, sign.getLine(2));
+			else { 
+				if (god != null) {
+					main.getGods().getAGod(sign.getLine(1)).addAnAltar(godBlockLocation, player);
+					main.getGods().getAGod(sign.getLine(1)).addABeliever(player.getUniqueId());
+					return true;
+				}
+				else {
+					main.getGods().createAGod(type, sign.getLine(1));
+					main.getGods().getAGod(sign.getLine(1)).addAnAltar(godBlockLocation, player);
+					main.getGods().getAGod(sign.getLine(1)).addABeliever(player.getUniqueId());
+					return true;
+				}
 			}
 		}
+		return false;
 	}
 	
 	private static Location findSign(Location godBlock) {

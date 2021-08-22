@@ -1,17 +1,22 @@
 package fr.pepintrie.pepintrieplugin;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.pepintrie.pepintrieplugin.command.AltarsCommands;
 import fr.pepintrie.pepintrieplugin.command.GodsCommands;
 import fr.pepintrie.pepintrieplugin.command.LicenceCommand;
+import fr.pepintrie.pepintrieplugin.command.QuestsCommands;
+import fr.pepintrie.pepintrieplugin.gods.God;
 import fr.pepintrie.pepintrieplugin.gods.Gods;
 import fr.pepintrie.pepintrieplugin.listeners.GodsListerners;
 
 
 public class Main extends JavaPlugin{
+	
 	
 	private Gods gods;
 	
@@ -22,7 +27,21 @@ public class Main extends JavaPlugin{
 		getCommand("licence").setExecutor(new LicenceCommand());
 		getCommand("gods").setExecutor(new GodsCommands(this));
 		getCommand("altars").setExecutor(new AltarsCommands(this));
+		getCommand("quests").setExecutor(new QuestsCommands(this));
 		getServer().getPluginManager().registerEvents(new GodsListerners(this), this);
+		
+		Random random = new Random();
+		for(God god : gods.getGods()) {
+			Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+
+				@Override
+				public void run() {
+					Bukkit.broadcastMessage("quest ! ");
+				}
+			}, 20); //between 0 and 8 hours random.nextInt(28800)
+		}
+		
+		
 		
 		/*
 		//import org.bukkit.configuration.file.YamlConfiguration;

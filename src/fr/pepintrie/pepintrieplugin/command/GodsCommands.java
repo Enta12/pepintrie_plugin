@@ -27,8 +27,8 @@ public class GodsCommands implements CommandExecutor{
 				else {
 					if(args[0].equalsIgnoreCase("create")) {
 						if(args.length == 3) {
-							if(main.getGods().isAType(args[1])) {
-								if(main.getGods().createAGod(args[1], args[2])) {
+							if(main.getGods().stringTypeToGodsType(args[1]) != null) {
+								if(main.getGods().createAGod(main.getGods().stringTypeToGodsType(args[1]),args[2])) {
 									sender.sendMessage(args[2] + " has been added");
 									return true;
 								}

@@ -1,5 +1,11 @@
 package fr.pepintrie.pepintrieplugin.command;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Random;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -7,6 +13,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import fr.pepintrie.pepintrieplugin.Main;
+import fr.pepintrie.pepintrieplugin.gods.objects.Goal;
+import fr.pepintrie.pepintrieplugin.gods.objects.Quest;
 
 public class AltarsCommands implements CommandExecutor {
 	

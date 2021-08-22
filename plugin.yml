@@ -32,3 +32,10 @@ commands:
       size:
         description: get size of an altar
         permission: altar.size
+  quests:
+    list:
+      description: list quest of an altar
+      persission: quests.admin
+    create:
+      description: create a quest for a god
+      persission: quests.admin

@@ -1,15 +1,17 @@
 package fr.pepintrie.pepintrieplugin.gods;
 
+import org.bukkit.Bukkit;
+
 import fr.pepintrie.pepintrieplugin.gods.objects.Goal;
 
-public class SeaGod extends God{
-
-	public SeaGod(String name) {
+public class EconomyGod extends God{
+	
+	public EconomyGod(String name) {
 		super(name);
-		color = "§9";
-		type = GodsType.SEA;
+		color = "§a";
+		type = GodsType.ECONOMY;
 	}
-
+	
 	@Override
 	protected void getGoals() {
 		set10Goals(goals);
@@ -35,4 +37,7 @@ public class SeaGod extends God{
 		goals.get(9).add(new Goal("objectif10"));
 		
 	}
+
+
+
 }

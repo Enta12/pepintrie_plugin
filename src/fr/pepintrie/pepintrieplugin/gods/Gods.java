@@ -2,6 +2,7 @@ package fr.pepintrie.pepintrieplugin.gods;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -39,25 +40,20 @@ public class Gods {
 		return -1;
 	}
 	
-	public boolean isAType(String type) {
-		String[] types = God.getTypes();
-		for(int i = 0 ; i< types.length; i++) {
-			if(type.equalsIgnoreCase(types[i])) return true;
-		}
-		return false;
-	}
 	
-	public boolean createAGod(String type, String name) {
+	public boolean createAGod(GodsType type, String name) {
 		if(getGodId(name) == -1) {
-			switch(type) {
-			case "nether":
+			if(type == GodsType.NETHER) {
 				gods.add(new NetherGod(name));
 				return true;
-			case "sea":
+			}
+			else if(type == GodsType.SEA) {
 				gods.add(new SeaGod(name));
 				return true;
-			default:
-				return false;
+			}
+			else if(type == GodsType.ECONOMY) {
+				gods.add(new EconomyGod(name));
+				return true;
 			}
 		}
 		return false;
@@ -104,7 +100,9 @@ public class Gods {
 		if(id == -1) {
 			return null;
 		}
-		else return gods.get(getGodId(name));
+		else {
+			return gods.get(getGodId(name));
+		}
 	}
 	
 
@@ -114,7 +112,6 @@ public class Gods {
 				if(altar.getLocation().getBlockX() == possibleAltar.getBlockX() && altar.getLocation().getBlockY() == possibleAltar.getBlockY() && altar.getLocation().getBlockZ() == possibleAltar.getBlockZ() && altar.getLocation().getWorld() == possibleAltar.getWorld()) {
 					god.getAltars().remove(altar);
 					if(god.getAltars().size() == 0) {
-						Bukkit.broadcastMessage("Le dernier temple de " + god.getColorName() + "§f est tombé, et avec lui " +  god.getColorName());
 						gods.remove(god);
 					}
 				}
@@ -132,6 +129,57 @@ public class Gods {
 		}
 		return null;
 	}
+	
+	public Altar getAltarFromAltarName(String altarName) {
+		for(God god : gods) {
+			for(Altar altar : god.getAltars()) {
+				if(altar.getName().equalsIgnoreCase(altarName)) {
+					return altar;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public GodsType getPlayerGodType(UUID uuid) {
+		for(God god :gods) {
+			for(UUID believerUuid : god.getBelieverUUID()) {
+				if(believerUuid.compareTo(uuid) == 0) {
+					return god.getType();
+				}
+			}
+		}
+		return null;
+	}
+
+
+	public boolean playerHaveAGod(UUID uuid) {
+		for(God god :gods) {
+			for(UUID believerUuid : god.getBelieverUUID()) {
+				if(believerUuid.compareTo(uuid) == 0) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+
+
+	public GodsType stringTypeToGodsType(String stringType) {
+		if (stringType.equalsIgnoreCase("nether")) {
+			return GodsType.NETHER;
+		}
+		else if (stringType.equalsIgnoreCase("sea")) {
+			return GodsType.SEA;
+		}
+		else if(stringType.equalsIgnoreCase("economy")) {
+			return GodsType.ECONOMY;
+		}
+		return null;
+	}
+
+
 	
 	
 }
