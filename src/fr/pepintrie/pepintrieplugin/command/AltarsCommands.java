@@ -7,10 +7,16 @@ import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import fr.pepintrie.pepintrieplugin.Main;
 import fr.pepintrie.pepintrieplugin.gods.objects.Goal;
@@ -99,6 +105,27 @@ public class AltarsCommands implements CommandExecutor {
 			}
 		}
 		return false;
+	}
+	
+	@EventHandler
+	public void onClick(InventoryClickEvent event) { 
+		Inventory inv = event.getInventory();
+		Player player = (Player) event.getWhoClicked();
+		ItemStack current = event.getCurrentItem();
+		
+		if((inv.toString().equalsIgnoreCase("§7Mon Menu"))) {
+			event.setCancelled(true);
+			if(current.getType()== Material.APPLE) {
+				player.closeInventory();
+				player.setGameMode(GameMode.SPECTATOR);
+			}
+			else if(current.getType()== Material.ANVIL) {
+				player.closeInventory();
+				player.getInventory().addItem(new ItemStack(Material.TNT,3));
+			}
+		}
+		
+			
 	}
 
 }

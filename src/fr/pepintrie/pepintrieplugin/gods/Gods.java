@@ -109,17 +109,32 @@ public class Gods {
 		}
 	}
 	
+	public Altar getAPossibleAltar(Location possibleAltar) {
+		for(God god : gods) {
+			for(Altar altar : god.getAltars()) {
+				if(altar.getLocation().getBlockX() == possibleAltar.getBlockX() && altar.getLocation().getBlockY() == possibleAltar.getBlockY() && altar.getLocation().getBlockZ() == possibleAltar.getBlockZ() && altar.getLocation().getWorld() == possibleAltar.getWorld()) {
+					return altar;
+				}
+			}
+		}
+		return null;
+	}
+	
 
 	public void removeAPossibleAltar(Location possibleAltar) {
 		for(God god : gods) {
+			boolean remove = false;;
 			for(Altar altar : god.getAltars()) {
 				if(altar.getLocation().getBlockX() == possibleAltar.getBlockX() && altar.getLocation().getBlockY() == possibleAltar.getBlockY() && altar.getLocation().getBlockZ() == possibleAltar.getBlockZ() && altar.getLocation().getWorld() == possibleAltar.getWorld()) {
 					god.getAltars().remove(altar);
 					if(god.getAltars().size() == 0) {
 						gods.remove(god);
+						remove= true;
+						break;
 					}
 				}
 			}
+			if(remove) break;
 		}
 	}
 	

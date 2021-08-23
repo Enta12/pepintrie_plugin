@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -26,6 +27,10 @@ public class Altar {
 		this.location = location;
 		size = 0;
 		set10Goals(goals);
+	}
+	
+	public God getGod() {
+		return god;
 	}
 
 	public String getName() {
@@ -86,7 +91,21 @@ public class Altar {
 						break;
 					}
 				}
-				if (noQuest) player.sendMessage(god.getColorName() + " : §fAs tu construit tout ce que je t'avais demandé ? ");
+				if (noQuest) {
+					boolean allGoalAreDone = true;
+					for(Goal goal : goals.get(size)) {
+						if(!goal.getIsOk()) {
+							player.sendMessage(god.getColorName() + " : §fAs tu construit tout ce que je t'avais demandé ? ");
+							allGoalAreDone = false;
+							break;
+						}
+					}
+					if(allGoalAreDone) {
+						size +=1;
+						player.sendMessage(god.getColorName() + " : §fHum, tu as bien tout fait, grâce à toi je suis lus puissant ");
+						
+					}
+				}
 			}
 		}
 		else if (event <50) {
@@ -116,6 +135,7 @@ public class Altar {
 				}
 				quests.remove(quest);
 				god.addPower(quest.getReward());
+				return true;
 			}
 		}
 		return false;

@@ -18,12 +18,12 @@ import fr.pepintrie.pepintrieplugin.gods.God;
 import fr.pepintrie.pepintrieplugin.gods.GodsType;
 
 
-public class GodsListerners implements Listener{
+public class GodsListeners implements Listener{
 	
 	private static Main main;
 	
-	public GodsListerners(Main main) {
-		GodsListerners.main = main;
+	public GodsListeners(Main main) {
+		GodsListeners.main = main;
 	}
 
 	@EventHandler()
@@ -128,7 +128,7 @@ public class GodsListerners implements Listener{
 	@EventHandler()
 	public void onBreakBlock(BlockBreakEvent event) {
 		Block block = event.getBlock();
-		if(block.getType() == Material.PRISMARINE_BRICKS || block.getType() == Material.NETHERITE_BLOCK) {
+		if(block.getType() == Material.PRISMARINE_BRICKS || block.getType() == Material.NETHERITE_BLOCK || block.getType() == Material.EMERALD_BLOCK) {
 			main.getGods().removeAPossibleAltar(block.getLocation());
 		}
 	}

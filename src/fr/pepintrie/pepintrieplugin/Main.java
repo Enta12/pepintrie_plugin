@@ -12,7 +12,8 @@ import fr.pepintrie.pepintrieplugin.command.LicenceCommand;
 import fr.pepintrie.pepintrieplugin.command.QuestsCommands;
 import fr.pepintrie.pepintrieplugin.gods.God;
 import fr.pepintrie.pepintrieplugin.gods.Gods;
-import fr.pepintrie.pepintrieplugin.listeners.GodsListerners;
+import fr.pepintrie.pepintrieplugin.listeners.AltarListeners;
+import fr.pepintrie.pepintrieplugin.listeners.GodsListeners;
 
 
 public class Main extends JavaPlugin{
@@ -28,7 +29,8 @@ public class Main extends JavaPlugin{
 		getCommand("gods").setExecutor(new GodsCommands(this));
 		getCommand("altars").setExecutor(new AltarsCommands(this));
 		getCommand("quests").setExecutor(new QuestsCommands(this));
-		getServer().getPluginManager().registerEvents(new GodsListerners(this), this);
+		getServer().getPluginManager().registerEvents(new GodsListeners(this), this);
+		getServer().getPluginManager().registerEvents(new AltarListeners(this), this);
 		
 		Random random = new Random();
 		for(God god : gods.getGods()) {

@@ -46,7 +46,7 @@ public class QuestsCommands implements CommandExecutor {
 						}
 					}
 					else if(args[0].equalsIgnoreCase("create")) {
-						if(args.length == 4) {
+						if(args.length == 3) {
 							if(main.getGods().getAGod(args[1]) != null) {
 								Altar altar =main.getGods().getAltarFromAltarAndGodName(args[2], args[1]);
 								if(altar != null) {
@@ -73,7 +73,7 @@ public class QuestsCommands implements CommandExecutor {
 							}
 						}
 						else {
-							Bukkit.broadcastMessage("/quests create <god> <altar> <player>");
+							Bukkit.broadcastMessage("/quests create <god> <altar>");
 							return false;
 						}
 					}
@@ -96,7 +96,7 @@ public class QuestsCommands implements CommandExecutor {
 							}
 						}
 						else {
-							Bukkit.broadcastMessage("/finish <god> <altar> <quest id>");
+							Bukkit.broadcastMessage("/quest finish <god> <altar> <quest id>");
 							return false;
 						}
 					}
