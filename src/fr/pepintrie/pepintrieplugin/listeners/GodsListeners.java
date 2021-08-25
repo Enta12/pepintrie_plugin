@@ -50,7 +50,7 @@ public class GodsListeners implements Listener{
 			if(signLocation != null) {
 				if(type == GodsType.NETHER) {
 					signLocation.getWorld().spawnParticle(Particle.PORTAL, signLocation, 1500);
-					if(signInstructions(signLocation, type, godBlockLocation, player)){
+					if(!signInstructions(signLocation, type, godBlockLocation, player)){
 						signLocation.getWorld().spawnEntity(signLocation, EntityType.WITHER_SKELETON);
 					}
 				}

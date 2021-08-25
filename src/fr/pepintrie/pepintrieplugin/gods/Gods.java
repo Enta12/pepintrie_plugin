@@ -199,6 +199,29 @@ public class Gods {
 	}
 
 
+
+	public ArrayList<Altar> getAltars() {
+		ArrayList<Altar> altars = new ArrayList<>();
+		for(God god : gods) {
+			for(Altar altar : god.getAltars()) altars.add(altar);
+		}
+		return altars;
+	}
+
+
+
+	public God getPlayerGod( UUID uuid) {
+		for(God god :gods) {
+			for(UUID believerUuid : god.getBelieverUUID()) {
+				if(believerUuid.compareTo(uuid) == 0) {
+					return god;
+				}
+			}
+		}
+		return null;
+	}
+
+
 	
 	
 }

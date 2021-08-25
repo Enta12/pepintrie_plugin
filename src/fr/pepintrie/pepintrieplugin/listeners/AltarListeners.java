@@ -2,7 +2,6 @@ package fr.pepintrie.pepintrieplugin.listeners;
 
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
@@ -37,20 +36,17 @@ public class AltarListeners implements Listener{
 	
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
-		Bukkit.broadcastMessage("onInteract 0");
-		if(event.getClickedBlock() != null && event.getAction() == Action.LEFT_CLICK_BLOCK) {
+		if(event.getClickedBlock() != null && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			Altar altar = getAnAltar(event.getClickedBlock());
 			if(altar != null) {
 				if(isPlayerAltar(altar, event.getPlayer().getUniqueId())) {
 					for(Quest quest : altar.getQuests()) {
-						Bukkit.broadcastMessage("onInteract 1");
 						if(quest.getIsAnAltarGoal()) event.getPlayer().sendMessage(altar.getGod().getColorName() + ": §fJe veux que tu améliore mon temple en " + quest.getDescription());
 						else event.getPlayer().sendMessage(altar.getGod().getColorName() + ":§f Je veux que tu " + quest.getDescription());
 					}
-					Bukkit.broadcastMessage("onInteract 2");
 				}
-				Bukkit.broadcastMessage("onInteract 3");
 			}
 		}
 	}
+	
 }

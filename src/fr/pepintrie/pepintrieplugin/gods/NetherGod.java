@@ -1,6 +1,10 @@
 package fr.pepintrie.pepintrieplugin.gods;
  
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
 import fr.pepintrie.pepintrieplugin.gods.objects.Goal;
+import fr.pepintrie.pepintrieplugin.gods.objects.Relic;
 
 public class NetherGod extends God{
 	
@@ -36,6 +40,13 @@ public class NetherGod extends God{
 		//goal for size 10
 		goals.get(9).add(new Goal("objectif10"));
 		
+	}
+
+
+	@Override
+	public ItemStack createARelic() {
+		//return Relic.getRelic(Material.COMPASS, random.nextInt(4)+1, getColorName(), "Compas", "Pour se téléporter à son hôtel", 0);
+		return null;
 	}
 
 

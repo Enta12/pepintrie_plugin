@@ -1,5 +1,7 @@
 package fr.pepintrie.pepintrieplugin.command;
 
+import java.util.Random;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -53,7 +55,9 @@ public class QuestsCommands implements CommandExecutor {
 									boolean notPlayer = true;
 									for(Player player : Bukkit.getOnlinePlayers()) {
 										if(player.getName().equalsIgnoreCase(altar.getPlayerName())) {
-											main.getGods().getAltarFromAltarAndGodName(args[2], args[1]).createNewQuest(player);
+											Random random = new Random();
+											//int event = random.nextInt(100);
+											main.getGods().getAltarFromAltarAndGodName(args[2], args[1]).createNewQuest(player, 5);
 											return true;
 										}
 									}

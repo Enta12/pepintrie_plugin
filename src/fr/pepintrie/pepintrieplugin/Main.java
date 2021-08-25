@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.pepintrie.pepintrieplugin.command.AltarsCommands;
@@ -12,8 +13,10 @@ import fr.pepintrie.pepintrieplugin.command.LicenceCommand;
 import fr.pepintrie.pepintrieplugin.command.QuestsCommands;
 import fr.pepintrie.pepintrieplugin.gods.God;
 import fr.pepintrie.pepintrieplugin.gods.Gods;
+import fr.pepintrie.pepintrieplugin.gods.objects.Relic;
 import fr.pepintrie.pepintrieplugin.listeners.AltarListeners;
 import fr.pepintrie.pepintrieplugin.listeners.GodsListeners;
+import fr.pepintrie.pepintrieplugin.listeners.RelicListeners;
 
 
 public class Main extends JavaPlugin{
@@ -31,7 +34,7 @@ public class Main extends JavaPlugin{
 		getCommand("quests").setExecutor(new QuestsCommands(this));
 		getServer().getPluginManager().registerEvents(new GodsListeners(this), this);
 		getServer().getPluginManager().registerEvents(new AltarListeners(this), this);
-		
+		getServer().getPluginManager().registerEvents(new RelicListeners(this), this);
 		Random random = new Random();
 		for(God god : gods.getGods()) {
 			Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {

@@ -1,8 +1,11 @@
 package fr.pepintrie.pepintrieplugin.gods;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import fr.pepintrie.pepintrieplugin.gods.objects.Goal;
+import fr.pepintrie.pepintrieplugin.gods.objects.Relic;
 
 public class EconomyGod extends God{
 	
@@ -36,6 +39,12 @@ public class EconomyGod extends God{
 		//goal for size 10
 		goals.get(9).add(new Goal("objectif10"));
 		
+	}
+	
+	@Override
+	public ItemStack createARelic() {
+		//return Relic.getRelic(Material.EMERALD, random.nextInt(4)+1, getColorName(), "Émeraude", "Pour ?", 0);
+		return null;
 	}
 
 

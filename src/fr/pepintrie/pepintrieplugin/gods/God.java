@@ -1,19 +1,16 @@
 package fr.pepintrie.pepintrieplugin.gods;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import fr.pepintrie.pepintrieplugin.gods.objects.Altar;
 import fr.pepintrie.pepintrieplugin.gods.objects.Goal;
-import fr.pepintrie.pepintrieplugin.gods.objects.Quest;
 
 public abstract class God {
 	
@@ -22,11 +19,12 @@ public abstract class God {
 	protected List<Altar> altars = new ArrayList<>();
 	protected List<UUID> believerUUID = new ArrayList<>();
 	protected Player priest;
-	protected float power;
+	protected int power;
 	protected String name;
 	protected String color;
 	protected GodsType type;
 	protected List<ArrayList<Goal>> goals = new ArrayList<ArrayList<Goal>>();
+	protected static Random random = new Random();
 	
 	public God(String name) {
 		setName(name);
@@ -110,5 +108,11 @@ public abstract class God {
 	public void addPower(int power) {
 		this.power += power;
 		
+	}
+	
+	public abstract ItemStack createARelic();
+
+	public int getPower() {
+		return power;
 	}
 }

@@ -73,9 +73,8 @@ public class Altar {
 		}
 	}
 	
-	public void createNewQuest(Player player) {
+	public void createNewQuest(Player player, int event) {
 		Random random = new Random();
-		int event = random.nextInt(100);
 		if(event == 0) {
 				//Spawn a priest if their is no one or just give a relic
 		}
