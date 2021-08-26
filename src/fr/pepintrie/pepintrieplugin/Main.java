@@ -1,10 +1,17 @@
 package fr.pepintrie.pepintrieplugin;
 
-import java.util.ArrayList;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.pepintrie.pepintrieplugin.command.AltarsCommands;
@@ -13,7 +20,6 @@ import fr.pepintrie.pepintrieplugin.command.LicenceCommand;
 import fr.pepintrie.pepintrieplugin.command.QuestsCommands;
 import fr.pepintrie.pepintrieplugin.gods.God;
 import fr.pepintrie.pepintrieplugin.gods.Gods;
-import fr.pepintrie.pepintrieplugin.gods.objects.Relic;
 import fr.pepintrie.pepintrieplugin.listeners.AltarListeners;
 import fr.pepintrie.pepintrieplugin.listeners.GodsListeners;
 import fr.pepintrie.pepintrieplugin.listeners.RelicListeners;
@@ -22,12 +28,42 @@ import fr.pepintrie.pepintrieplugin.listeners.RelicListeners;
 public class Main extends JavaPlugin{
 	
 	
-	private Gods gods;
+	private static Gods gods;
 	
 	@Override
 	public void onEnable() {
 		System.out.println("Start of pepintrie_plugin");
-		gods = new Gods(new ArrayList<>());
+		File godsFile = new File("plugins/pepintrie_plugin/gods");
+		if(godsFile.exists()) {
+			ObjectInputStream ois;
+			try {
+				ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(godsFile)));
+				
+				ois.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			
+
+		}
+		else {
+	        File pepintrie_directory = new File("plugins/pepintrie_plugin");
+	        if(pepintrie_directory.exists()) {
+	        	
+	        }
+	        else {
+	        	System.out.println("pepintrie_directory doesn't exist");
+	        	if (pepintrie_directory.mkdir()) {
+		            System.out.println("creation of pepintrie_directory succesfull");
+		        }
+		        else {
+		            System.out.println("pepintrie_directory cannot be created");
+		        }
+	        }
+		}
+		
+		gods = new Gods(new HashMap<>());
 		getCommand("licence").setExecutor(new LicenceCommand());
 		getCommand("gods").setExecutor(new GodsCommands(this));
 		getCommand("altars").setExecutor(new AltarsCommands(this));
@@ -36,46 +72,35 @@ public class Main extends JavaPlugin{
 		getServer().getPluginManager().registerEvents(new AltarListeners(this), this);
 		getServer().getPluginManager().registerEvents(new RelicListeners(this), this);
 		Random random = new Random();
-		for(God god : gods.getGods()) {
-			Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-
-				@Override
-				public void run() {
-					Bukkit.broadcastMessage("quest ! ");
-				}
-			}, 20); //between 0 and 8 hours random.nextInt(28800)
-		}
 		
-		
-		
-		/*
-		//import org.bukkit.configuration.file.YamlConfiguration;
-		//import java.io.File;
-		final File file = new File(this.getDataFolder(), "gods.yml");
-		final YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
-		if configurationSection = configuration.getConfigurationSection(key);
-		*/
 	}
 	
 	@Override
 	public void onDisable() {
 		System.out.println("End of pepintrie_plugin");
-		
-		/*
-		//import org.bukkit.configuration.file.YamlConfiguration;
-		//import java.io.File;
-		final File file = new File(this.getDataFolder(), "gods.yml");
-		final YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
-		configuration.set(gods.get(0).getName() + ".power" , gods.get(0).getPower());
-		configuration.set(gods.get(0).getName() + ".prier", gods.get(0).getPriers());
-		try{
-			configuration.save(file);
-		}catch (IOException e){
-			e.printStackTrace();
+		File godsFile = new File("plugins/pepintrie_plugin/test");
+		if(!godsFile.exists()) {
+			try {
+				godsFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		*/
+		else {
+			try {
+				ObjectOutputStream oos;
+				oos = new ObjectOutputStream(
+		                new BufferedOutputStream(
+		                  new FileOutputStream(
+		                		  godsFile)));
+				oos.writeObject(gods);
+		        oos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
-	
+
 	public Gods getGods(){
 		return gods;
 	}

@@ -1,5 +1,7 @@
 package fr.pepintrie.pepintrieplugin.listeners;
 
+import java.util.Random;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -12,10 +14,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
 
 import fr.pepintrie.pepintrieplugin.Main;
 import fr.pepintrie.pepintrieplugin.gods.God;
 import fr.pepintrie.pepintrieplugin.gods.GodsType;
+import fr.pepintrie.pepintrieplugin.gods.mob.Priest;
+import fr.pepintrie.pepintrieplugin.gods.objects.Relic;
 
 
 public class GodsListeners implements Listener{
@@ -132,4 +138,30 @@ public class GodsListeners implements Listener{
 			main.getGods().removeAPossibleAltar(block.getLocation());
 		}
 	}
+	
+	//for test
+		@EventHandler
+		public void onJoin(PlayerJoinEvent event) {
+			//for test 
+			Player player = event.getPlayer();
+			player.getInventory().clear();
+			ItemStack test = Relic.getNetherRelic(15, "Enta12", "Enta12", "Enta12", 0);
+			player.getInventory().addItem(test);
+			player.updateInventory(); 
+			String prout =  " ";
+			prout.endsWith("Godname");
+			new Priest(event.getPlayer().getLocation(), "§f");
+			
+			if(main.getGods().playerHaveAGod(event.getPlayer().getUniqueId())) {
+				Random random = new Random();
+				God god = main.getGods().getPlayerGod(event.getPlayer().getUniqueId());
+				Bukkit.getScheduler().scheduleSyncDelayedTask(main, new Runnable() {
+
+					@Override
+					public void run() {
+						main.getGods().getAltarFromAltarAndGodName(event.getPlayer().getName(), god.getName()).createNewQuest(player, random.nextInt(100));
+					}
+				}, random.nextInt(28800)); //between 0 and 8 hours random.nextInt(28800);
+			}
+		}
 }

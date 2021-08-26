@@ -1,6 +1,7 @@
 package fr.pepintrie.pepintrieplugin.listeners;
 
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import fr.pepintrie.pepintrieplugin.Main;
 import fr.pepintrie.pepintrieplugin.gods.God;
 import fr.pepintrie.pepintrieplugin.gods.GodsType;
+import fr.pepintrie.pepintrieplugin.gods.mob.Priest;
 import fr.pepintrie.pepintrieplugin.gods.objects.Altar;
 import fr.pepintrie.pepintrieplugin.gods.objects.Relic;
 import task.TeleleportNether;
@@ -42,6 +44,7 @@ public class RelicListeners implements Listener{
 		player.updateInventory(); 
 		String prout =  " ";
 		prout.endsWith("Godname");
+		new Priest(event.getPlayer().getLocation(), "§f");
 	}
 	
 	
@@ -51,10 +54,10 @@ public class RelicListeners implements Listener{
 			if (event.getItem().getEnchantmentLevel(Enchantment.ARROW_INFINITE) == 255) {
 				if(usePower(event.getItem(), GodsType.NETHER, event.getPlayer())){
 					Bukkit.broadcastMessage("relic nether");
-					for(Altar altar : main.getGods().getAltars()){
-						if(event.getItem().getItemMeta().getLore().get(1).endsWith(altar.getPlayerName())) {
+					for(Entry<String, Altar> entry : main.getGods().getAltars().entrySet()){
+						if(event.getItem().getItemMeta().getLore().get(1).endsWith(entry.getValue().getPlayerName())) {
 							event.getPlayer().getWorld().spawnParticle(Particle.PORTAL, event.getPlayer().getLocation(), 1500);
-							(new TeleleportNether(event.getPlayer(), altar)).runTaskTimer(main, 20, 20);
+							(new TeleleportNether(event.getPlayer(), entry.getValue())).runTaskTimer(main, 20, 20);
 							break;
 						}
 					}
@@ -88,7 +91,6 @@ public class RelicListeners implements Listener{
 		else utilisationLeft = utilisationLeftSentence[0]-48;
 		if(utilisationLeft>9) {
 			if(utilisationLeft-1<10) {
-				Bukkit.broadcastMessage("test1");
 				char[] newUtilisationLeftSentence = new char[utilisationLeftSentence.length-1];
 				newUtilisationLeftSentence[0] = '9';
 				for (int i = 1; i < newUtilisationLeftSentence.length; i++) {
@@ -97,14 +99,13 @@ public class RelicListeners implements Listener{
 				utilisationLeftSentence = newUtilisationLeftSentence;
 			}
 			else {
-				Bukkit.broadcastMessage("test2");
 				utilisationLeftSentence[1] -=1;
 			}
 		}
 		else {
 			utilisationLeftSentence[0] -=1;
 		}
-		if (utilisationLeft == 0) return true;
+		if (utilisationLeft == 1) return true;
 		else {
 			lore.set(lore.size()-1, new String(utilisationLeftSentence));
 			ItemMeta meta = relic.getItemMeta();
@@ -121,13 +122,15 @@ public class RelicListeners implements Listener{
         if (m.find()) 
         {
         	God god = main.getGods().getPlayerGod(player.getUniqueId());
-        	int power = Integer.valueOf(m.group(1));
-        	if(!(god.getType() == type || god.getType() == GodsType.ECONOMY))power*=2;
-        	if(!(power < god.getPower())){
-        		god.addPower(power);
-        		return true;
+        	if(god != null) {
+	        	int power = Integer.valueOf(m.group(1));
+	        	if(!(god.getType() == type || god.getType() == GodsType.ECONOMY))power*=2;
+	        	if(!(power < god.getPower())){
+	        		god.addPower(power);
+	        		return true;
+	        	}
+	        	player.sendMessage(god.getColorName() + " : §fJe ne suis pas assez puissant");
         	}
-        	player.sendMessage(god.getColorName() + " : §fJe ne suis pas assez puissant");
         }
         return false;
 	}

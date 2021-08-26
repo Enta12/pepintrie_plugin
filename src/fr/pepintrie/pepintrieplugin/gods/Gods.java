@@ -1,7 +1,10 @@
 package fr.pepintrie.pepintrieplugin.gods;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -9,40 +12,31 @@ import org.bukkit.Location;
 
 import fr.pepintrie.pepintrieplugin.gods.objects.Altar;
 
-public class Gods {
-	private ArrayList<God> gods = new ArrayList<>();
+public class Gods implements Serializable{
+	private HashMap<String, God> gods = new HashMap<>();
 	
-	public Gods(ArrayList<God> gods) {
+	public Gods(HashMap<String, God> gods) {
 		this.gods = gods;
 	}
 	
 	
 
-	public List<God> getGods() {
+	public HashMap<String, God> getGods() {
 		return gods;
 	}
 	
 	public boolean deleteAGod(String godName) {
-		final int id = getGodId(godName);
-		if(id != -1) {
-			gods.remove(id);
+		if(gods.containsKey(godName)) {
+			gods.remove(godName);
 			return true;
 		}
-		return false;
-	}
-	
-	private int getGodId(String godName) {
-		for(int i = 0; i < gods.size(); i++) {
-			if(gods.get(i).getName().equalsIgnoreCase(godName)) {
-				return i;
-			}
+		else {
+			return false;
 		}
-		return -1;
 	}
-	
 	
 	public boolean createAGod(GodsType type, String name) {
-		if(getGodId(name) == -1) {
+		if(!gods.containsKey(name)) {
 			God god;
 			if(type == GodsType.NETHER) {
 				god = new NetherGod(name);
@@ -56,7 +50,7 @@ public class Gods {
 			else {
 				return false;
 			}
-			gods.add(god);
+			gods.put(name, god);
 			Bukkit.broadcastMessage(god.getColorName() + " §f commence un règne");
 			
 		}
@@ -76,10 +70,9 @@ public class Gods {
 	}
 	
 	public boolean renameAGod(String oldName, String newName) {
-		int id = getGodId(oldName);
-		if(id != -1) {
-			if(getGodId(newName) == -1) {
-				gods.get(id).setName(newName);
+		if(gods.containsKey(oldName)) {
+			if(!gods.containsKey(newName)) {
+				gods.get(oldName).setName(newName);
 				return true;
 			}
 			return false;
@@ -91,8 +84,8 @@ public class Gods {
 
 	public String getListString() {
 		String str = "Gods are :\n";
-		for(God god : gods) {
-			str += god.getColorName() + " " + god.getType() + " god\n";
+		for(Entry<String, God> entry : gods.entrySet()) {
+			str += entry.getValue().getColorName() + " " + entry.getValue().getType() + " god\n";
 		}
 		return str;
 	}
@@ -100,20 +93,22 @@ public class Gods {
 
 
 	public God getAGod(String name) {
-		int id = getGodId(name);
-		if(id == -1) {
+		if(!gods.containsKey(name)) {
 			return null;
 		}
 		else {
-			return gods.get(getGodId(name));
+			return gods.get(name);
 		}
 	}
 	
 	public Altar getAPossibleAltar(Location possibleAltar) {
-		for(God god : gods) {
-			for(Altar altar : god.getAltars()) {
-				if(altar.getLocation().getBlockX() == possibleAltar.getBlockX() && altar.getLocation().getBlockY() == possibleAltar.getBlockY() && altar.getLocation().getBlockZ() == possibleAltar.getBlockZ() && altar.getLocation().getWorld() == possibleAltar.getWorld()) {
-					return altar;
+		for(Entry<String, God> entry : gods.entrySet()) {
+			for(Entry<String, Altar> altarEntry : entry.getValue().getAltars().entrySet()) {
+				if(altarEntry.getValue().getLocation().getBlockX() == possibleAltar.getBlockX() 
+						&& altarEntry.getValue().getLocation().getBlockY() == possibleAltar.getBlockY() 
+						&& altarEntry.getValue().getLocation().getBlockZ() == possibleAltar.getBlockZ() 
+						&& altarEntry.getValue().getLocation().getWorld() == possibleAltar.getWorld()) {
+					return altarEntry.getValue();
 				}
 			}
 		}
@@ -122,13 +117,16 @@ public class Gods {
 	
 
 	public void removeAPossibleAltar(Location possibleAltar) {
-		for(God god : gods) {
-			boolean remove = false;;
-			for(Altar altar : god.getAltars()) {
-				if(altar.getLocation().getBlockX() == possibleAltar.getBlockX() && altar.getLocation().getBlockY() == possibleAltar.getBlockY() && altar.getLocation().getBlockZ() == possibleAltar.getBlockZ() && altar.getLocation().getWorld() == possibleAltar.getWorld()) {
-					god.getAltars().remove(altar);
-					if(god.getAltars().size() == 0) {
-						gods.remove(god);
+		for(Entry<String, God> entry : gods.entrySet()) {
+			boolean remove = false;
+			for(Entry<String, Altar> altarEntry : entry.getValue().getAltars().entrySet()) {
+				if(altarEntry.getValue().getLocation().getBlockX() == possibleAltar.getBlockX() 
+						&& altarEntry.getValue().getLocation().getBlockY() == possibleAltar.getBlockY() 
+						&& altarEntry.getValue().getLocation().getBlockZ() == possibleAltar.getBlockZ() 
+						&& altarEntry.getValue().getLocation().getWorld() == possibleAltar.getWorld()) {
+					entry.getValue().getAltars().remove(altarEntry.getKey());
+					if(entry.getValue().getAltars().size() == 0) {
+						gods.remove(entry.getKey());
 						remove= true;
 						break;
 					}
@@ -140,31 +138,25 @@ public class Gods {
 	
 	public Altar getAltarFromAltarAndGodName(String altarName, String godName) {
 		if(getAGod(godName) != null) {
-				for(Altar altar :getAGod(godName).getAltars()) {
-					if(altar.getName().equalsIgnoreCase(altarName)) {
-						return altar;
-				}
-			}
+				if(gods.get(godName).getAltars().containsKey(altarName)) return gods.get(godName).getAltars().get(altarName);
 		}
 		return null;
 	}
 	
 	public Altar getAltarFromAltarName(String altarName) {
-		for(God god : gods) {
-			for(Altar altar : god.getAltars()) {
-				if(altar.getName().equalsIgnoreCase(altarName)) {
-					return altar;
-				}
+		for(Entry<String, God> entry : gods.entrySet()) {
+				if(entry.getValue().getAltars().containsKey(altarName)) {
+					return entry.getValue().getAltars().get(altarName);
 			}
 		}
 		return null;
 	}
 	
 	public GodsType getPlayerGodType(UUID uuid) {
-		for(God god :gods) {
-			for(UUID believerUuid : god.getBelieverUUID()) {
+		for(Entry<String, God> entry : gods.entrySet()) {
+			for(UUID believerUuid : entry.getValue().getBelieverUUID()) {
 				if(believerUuid.compareTo(uuid) == 0) {
-					return god.getType();
+					return entry.getValue().getType();
 				}
 			}
 		}
@@ -173,8 +165,8 @@ public class Gods {
 
 
 	public boolean playerHaveAGod(UUID uuid) {
-		for(God god :gods) {
-			for(UUID believerUuid : god.getBelieverUUID()) {
+		for(Entry<String, God> entry : gods.entrySet()) {
+			for(UUID believerUuid : entry.getValue().getBelieverUUID()) {
 				if(believerUuid.compareTo(uuid) == 0) {
 					return true;
 				}
@@ -200,10 +192,12 @@ public class Gods {
 
 
 
-	public ArrayList<Altar> getAltars() {
-		ArrayList<Altar> altars = new ArrayList<>();
-		for(God god : gods) {
-			for(Altar altar : god.getAltars()) altars.add(altar);
+	public HashMap<String, Altar> getAltars() {
+		HashMap<String, Altar> altars = new HashMap<>();
+		for(Entry<String, God> entry : gods.entrySet()) {
+			for(Entry<String, Altar> altarEntry : entry.getValue().getAltars().entrySet()) {
+				altars.put(altarEntry.getKey(), altarEntry.getValue());
+			}
 		}
 		return altars;
 	}
@@ -211,10 +205,10 @@ public class Gods {
 
 
 	public God getPlayerGod( UUID uuid) {
-		for(God god :gods) {
-			for(UUID believerUuid : god.getBelieverUUID()) {
+		for(Entry<String, God> entry : gods.entrySet()) {
+			for(UUID believerUuid : entry.getValue().getBelieverUUID()) {
 				if(believerUuid.compareTo(uuid) == 0) {
-					return god;
+					return entry.getValue();
 				}
 			}
 		}

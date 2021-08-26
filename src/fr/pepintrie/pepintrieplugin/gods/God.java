@@ -1,6 +1,7 @@
 package fr.pepintrie.pepintrieplugin.gods;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -16,7 +17,7 @@ public abstract class God {
 	
 	protected static String[] types = {"nether", "sea", "economy"};
 	
-	protected List<Altar> altars = new ArrayList<>();
+	protected HashMap<String, Altar> altars = new HashMap<>();
 	protected List<UUID> believerUUID = new ArrayList<>();
 	protected Player priest;
 	protected int power;
@@ -81,11 +82,11 @@ public abstract class God {
 	
 	public void addAnAltar(Location location, Player player) {
 		Altar altar = new Altar(player, location, this);
-		altars.add(altar);
+		altars.put(player.getName(), altar);
 		setGoals(altar);
 	}
 
-	public  List<Altar> getAltars() {
+	public  HashMap<String, Altar> getAltars() {
 		return altars;
 	}
 	
