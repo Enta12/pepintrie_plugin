@@ -1,12 +1,14 @@
 package fr.pepintrie.pepintrieplugin.gods;
 
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import fr.pepintrie.pepintrieplugin.gods.objects.Goal;
 import fr.pepintrie.pepintrieplugin.gods.objects.Relic;
 
 public class SeaGod extends God{
+
+
+	private static final long serialVersionUID = 1L;
 
 	public SeaGod(String name) {
 		super(name);
@@ -42,7 +44,6 @@ public class SeaGod extends God{
 	
 	@Override
 	public ItemStack createARelic() {
-		//return Relic.getRelic(Material.HEART_OF_THE_SEA, random.nextInt(4)+1, getColorName(), "Coeur ", "Pour ?", "DESERT", 0);
-		return null;
+		return Relic.getSeaRelic(random.nextInt(3)+1, getColorName(), "Coeur ", random.nextInt(20)+1);
 	}
 }

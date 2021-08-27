@@ -13,16 +13,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.pepintrie.pepintrieplugin.Main;
 import fr.pepintrie.pepintrieplugin.gods.God;
 import fr.pepintrie.pepintrieplugin.gods.GodsType;
-import fr.pepintrie.pepintrieplugin.gods.mob.Priest;
 import fr.pepintrie.pepintrieplugin.gods.objects.Altar;
-import fr.pepintrie.pepintrieplugin.gods.objects.Relic;
 import task.TeleleportNether;
 
 public class RelicListeners implements Listener{
@@ -34,26 +31,11 @@ public class RelicListeners implements Listener{
 	}
 	
 	
-	//for test
-	@EventHandler
-	public void onJoin(PlayerJoinEvent event) {
-		Player player = event.getPlayer();
-		player.getInventory().clear();
-		ItemStack test = Relic.getNetherRelic(15, "Enta12", "Enta12", "Enta12", 0);
-		player.getInventory().addItem(test);
-		player.updateInventory(); 
-		String prout =  " ";
-		prout.endsWith("Godname");
-		new Priest(event.getPlayer().getLocation(), "§f");
-	}
-	
-	
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
 		if(event.getItem() != null) {
 			if (event.getItem().getEnchantmentLevel(Enchantment.ARROW_INFINITE) == 255) {
 				if(usePower(event.getItem(), GodsType.NETHER, event.getPlayer())){
-					Bukkit.broadcastMessage("relic nether");
 					for(Entry<String, Altar> entry : main.getGods().getAltars().entrySet()){
 						if(event.getItem().getItemMeta().getLore().get(1).endsWith(entry.getValue().getPlayerName())) {
 							event.getPlayer().getWorld().spawnParticle(Particle.PORTAL, event.getPlayer().getLocation(), 1500);
@@ -66,7 +48,6 @@ public class RelicListeners implements Listener{
 				
 			} else if(event.getItem().getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS) == 255) {
 				if(usePower(event.getItem(), GodsType.SEA, event.getPlayer())){
-					Bukkit.broadcastMessage("relic sea");
 					event.getPlayer().setCompassTarget(new Location(Bukkit.getWorld("world"),event.getItem().getEnchantmentLevel(Enchantment.ARROW_DAMAGE)*10000 + event.getItem().getEnchantmentLevel(Enchantment.ARROW_FIRE)*100 + event.getItem().getEnchantmentLevel(Enchantment.LOYALTY),event.getItem().getEnchantmentLevel(Enchantment.FIRE_ASPECT),event.getItem().getEnchantmentLevel(Enchantment.ARROW_KNOCKBACK)*10000 + event.getItem().getEnchantmentLevel(Enchantment.BINDING_CURSE)*100 + event.getItem().getEnchantmentLevel(Enchantment.CHANNELING)));
 					Bukkit.getScheduler().scheduleSyncDelayedTask(main, new Runnable() {
 						@Override

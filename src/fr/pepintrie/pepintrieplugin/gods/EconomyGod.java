@@ -1,14 +1,13 @@
 package fr.pepintrie.pepintrieplugin.gods;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import fr.pepintrie.pepintrieplugin.gods.objects.Goal;
-import fr.pepintrie.pepintrieplugin.gods.objects.Relic;
 
 public class EconomyGod extends God{
 	
+	private static final long serialVersionUID = 1L;
+
 	public EconomyGod(String name) {
 		super(name);
 		color = "§a";

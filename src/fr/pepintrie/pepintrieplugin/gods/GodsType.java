@@ -1,5 +1,7 @@
 package fr.pepintrie.pepintrieplugin.gods;
 
-public enum GodsType {
+import java.io.Serializable;
+
+public enum GodsType implements Serializable{
 	NETHER, SEA, ECONOMY
 }

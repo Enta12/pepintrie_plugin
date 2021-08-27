@@ -1,8 +1,10 @@
 package fr.pepintrie.pepintrieplugin.gods;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.UUID;
 
@@ -13,8 +15,10 @@ import org.bukkit.inventory.ItemStack;
 import fr.pepintrie.pepintrieplugin.gods.objects.Altar;
 import fr.pepintrie.pepintrieplugin.gods.objects.Goal;
 
-public abstract class God {
+public abstract class God implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	protected static String[] types = {"nether", "sea", "economy"};
 	
 	protected HashMap<String, Altar> altars = new HashMap<>();
@@ -93,9 +97,8 @@ public abstract class God {
 
 	public String altarsToString() {
 		String str = "Altars of " + getColorName() + "§f are : ";
-		for(int i = 0; i < altars.size(); i++) {
-			str += altars.get(i).getName();
-			if (i+1 < altars.size()) str += ", ";
+		for(Entry<String, Altar> altar : altars.entrySet()) {
+			str += altar.getKey() + "\n";
 		}
 		return str;	
 	}

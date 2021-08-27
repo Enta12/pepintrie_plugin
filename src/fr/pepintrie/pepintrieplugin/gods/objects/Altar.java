@@ -1,21 +1,24 @@
 package fr.pepintrie.pepintrieplugin.gods.objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import fr.pepintrie.pepintrieplugin.gods.God;
+import fr.pepintrie.pepintrieplugin.gods.GodsType;
 
-public class Altar {
+public class Altar implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private int size;
 	private UUID playerUUID;
 	private String playerName;
-	private Location location;
+	private LocationSerializable location;
 	private List<ArrayList<Goal>> goals = new ArrayList<ArrayList<Goal>>();
 	private ArrayList<Quest> quests = new ArrayList<>();
 	private God god;
@@ -24,7 +27,7 @@ public class Altar {
 		this.god = god;
 		this.playerName = player.getName();
 		this.playerUUID = player.getUniqueId();
-		this.location = location;
+		this.location = new LocationSerializable(location);
 		size = 0;
 		set10Goals(goals);
 	}
@@ -42,7 +45,7 @@ public class Altar {
 	}
 	
 	public Location getLocation() {
-		return location;
+		return location.toLocation();
 	}
 	
 	public int getSize() {
@@ -73,10 +76,17 @@ public class Altar {
 		}
 	}
 	
-	public void createNewQuest(Player player, int event) {
+	public void createNewQuest(Player player, int event){
 		Random random = new Random();
 		if(event == 0) {
-				//Spawn a priest if their is no one or just give a relic
+			if(god.getType() == GodsType.ECONOMY) {
+				god.addPower(size*(random.nextInt(19)+1));
+			}
+			else if(player.getInventory().addItem(god.createARelic()).size() == 0) player.sendMessage(god.getColorName() + " : §fVoici un cadeau pour toi mon fidèle serviteur.");
+			else {
+				player.sendMessage("Je voulais te faire un cadeau mais tu n'avais pas de place ... donc je l'ai absorbé");
+				god.addPower(size*(random.nextInt(9)+1));
+			}
 		}
 		else if (event <10) { //quest for altar or just give a relic
 			if(size != 10) {
@@ -125,7 +135,6 @@ public class Altar {
 		for(Quest quest : quests) {
 			if(quest.getId() == id) {
 				if(quest.getIsAnAltarGoal()) {
-					boolean all = false;
 					for(Goal goal : goals.get(size)) {
 						if(goal.getDescription().equals(quest.getDescription())) {
 							goal.setIsOk();

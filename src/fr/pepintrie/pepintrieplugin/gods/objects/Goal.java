@@ -1,6 +1,10 @@
 package fr.pepintrie.pepintrieplugin.gods.objects;
 
-public class Goal{
+import java.io.Serializable;
+
+public class Goal implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private String Description;
 	private boolean isAvailable;
 	private boolean isOk;

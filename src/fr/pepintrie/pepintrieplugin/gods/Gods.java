@@ -1,9 +1,7 @@
 package fr.pepintrie.pepintrieplugin.gods;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
 
@@ -13,6 +11,8 @@ import org.bukkit.Location;
 import fr.pepintrie.pepintrieplugin.gods.objects.Altar;
 
 public class Gods implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private HashMap<String, God> gods = new HashMap<>();
 	
 	public Gods(HashMap<String, God> gods) {
@@ -27,6 +27,7 @@ public class Gods implements Serializable{
 	
 	public boolean deleteAGod(String godName) {
 		if(gods.containsKey(godName)) {
+			Bukkit.broadcastMessage(gods.get(godName).getColorName() + "§f a fini son règne");
 			gods.remove(godName);
 			return true;
 		}

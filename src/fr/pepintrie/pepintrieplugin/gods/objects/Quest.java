@@ -1,7 +1,11 @@
 package fr.pepintrie.pepintrieplugin.gods.objects;
 
-public class Quest {
+import java.io.Serializable;
+
+public class Quest implements Serializable{
 	
+
+	private static final long serialVersionUID = 1L;
 	private String Description;
 	private int reward;
 	private int id;
