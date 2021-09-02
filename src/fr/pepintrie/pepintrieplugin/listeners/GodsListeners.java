@@ -1,6 +1,8 @@
 package fr.pepintrie.pepintrieplugin.listeners;
 
+import java.util.HashMap;
 import java.util.Random;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -15,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import fr.pepintrie.pepintrieplugin.Main;
 import fr.pepintrie.pepintrieplugin.gods.God;
@@ -24,6 +27,7 @@ import fr.pepintrie.pepintrieplugin.gods.GodsType;
 public class GodsListeners implements Listener{
 	
 	private static Main main;
+	private HashMap<UUID, Integer> taskID = new HashMap<>();
 	
 	public GodsListeners(Main main) {
 		GodsListeners.main = main;
@@ -136,19 +140,23 @@ public class GodsListeners implements Listener{
 		}
 	}
 	
-	//for test
-		@EventHandler
-		public void onJoin(PlayerJoinEvent event) {
-			if(main.getGods().playerHaveAGod(event.getPlayer().getUniqueId())) {
-				Random random = new Random();
-				God god = main.getGods().getPlayerGod(event.getPlayer().getUniqueId());
-				Bukkit.getScheduler().scheduleSyncRepeatingTask(main, new Runnable() {
+	@EventHandler
+	public void onJoin(PlayerJoinEvent event) {
+		if(main.getGods().playerHaveAGod(event.getPlayer().getUniqueId())) {
+			Random random = new Random();
+			God god = main.getGods().getPlayerGod(event.getPlayer().getUniqueId());
+			taskID.put(event.getPlayer().getUniqueId(), Bukkit.getScheduler().scheduleSyncRepeatingTask(main, new Runnable() {
 
-					@Override
-					public void run() {
-						main.getGods().getAltarFromAltarAndGodName(event.getPlayer().getName(), god.getName()).createNewQuest(event.getPlayer(), random.nextInt(100));
-					}
-				},1,1);//random.nextInt(28800), random.nextInt(28800)); 
-			}
+				@Override
+				public void run() {
+					main.getGods().getAltarFromAltarAndGodName(event.getPlayer().getName(), god.getName()).createNewQuest(event.getPlayer(), random.nextInt(100));
+				}
+			},random.nextInt(28800), random.nextInt(28800))); 
 		}
+	}
+	
+	@EventHandler
+	public void onDisconet(PlayerQuitEvent event) {
+		if(taskID.containsKey(event.getPlayer().getUniqueId())) Bukkit.getScheduler().cancelTask(taskID.get(event.getPlayer().getUniqueId()));
+	}
 }
