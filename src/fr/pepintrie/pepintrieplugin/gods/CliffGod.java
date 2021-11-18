@@ -12,8 +12,8 @@ public class CliffGod extends God {
 
 	public CliffGod(String name) {
 		super(name);
-		color = "§4";
-		type = GodsType.NETHER;	
+		color = "§7";
+		type = GodsType.CLIFF;	
 	}
 
 
@@ -50,6 +50,7 @@ public class CliffGod extends God {
 
 	@Override
 	public ItemStack createARelic() {
-		return Relic.getNetherRelic(random.nextInt(10)+1, getColorName(), "Compas", "Pour se téléporter à son autel", random.nextInt(4)+1);
+		//TODO
+		return null;
 	}
 }

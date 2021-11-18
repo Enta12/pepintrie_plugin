@@ -48,6 +48,9 @@ public class Gods implements Serializable{
 			else if(type == GodsType.ECONOMY) {
 				god = new EconomyGod(name);
 			}
+			else if(type == GodsType.CLIFF) {
+				god = new CliffGod(name);
+			}
 			else {
 				return false;
 			}
