@@ -18,6 +18,7 @@ import fr.pepintrie.pepintrieplugin.command.LicenceCommand;
 import fr.pepintrie.pepintrieplugin.command.QuestsCommands;
 import fr.pepintrie.pepintrieplugin.gods.Gods;
 import fr.pepintrie.pepintrieplugin.listeners.AltarListeners;
+import fr.pepintrie.pepintrieplugin.listeners.ChestListeners;
 import fr.pepintrie.pepintrieplugin.listeners.GodsListeners;
 import fr.pepintrie.pepintrieplugin.listeners.RelicListeners;
 
@@ -69,6 +70,7 @@ public class Main extends JavaPlugin{
 		getServer().getPluginManager().registerEvents(new GodsListeners(this), this);
 		getServer().getPluginManager().registerEvents(new AltarListeners(this), this);
 		getServer().getPluginManager().registerEvents(new RelicListeners(this), this);
+		getServer().getPluginManager().registerEvents(new ChestListeners(), this);
 
 		
 	}
