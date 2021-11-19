@@ -13,4 +13,4 @@ jobs:
       - name: build
         run: jar cf plugin.jar .
       - name: deploy
-        run: ssh -oStrictHostKeyChecking=no serveurdev@dtest.pepintrie.fr ./launch.sh
+        run: ssh -oStrictHostKeyChecking=no serveurdev@test.pepintrie.fr ./launch.sh
