@@ -1,4 +1,4 @@
-name: CI
+name: deploy-serv-dev
 
 on: push
 
@@ -8,6 +8,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: install-java
+        run: sudo apt update && sudo apt -y install default-jdk
+      
 
-      - name: Run a one-line script
-        run: echo "Hello, world!"
+      - name: build
+        run: jar cf jar-file .
