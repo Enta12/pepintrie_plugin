@@ -24,6 +24,8 @@ jobs:
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }} 
           known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+      - name: test
+        run: ${{ secrets.SSH_PRIVATE_KEY }} 
       - name: Adding Known Hosts
         run: ssh-keyscan -H test.pepintrie.fr >> ~/.ssh/known_hosts
       - name: deploy
