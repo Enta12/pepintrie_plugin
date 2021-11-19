@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: install-java
         run: sudo apt update && sudo apt -y install default-jdk
-      
-
       - name: build
-        run: ls && jar cf jar-file . && ls
+        run: jar cf plugin.jar .
+      - name: deploy
+        run: ssh -oStrictHostKeyChecking=no serveurdev@dtest.pepintrie.fr ./launch.sh
