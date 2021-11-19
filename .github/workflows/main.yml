@@ -19,7 +19,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Install SSH Key
+      - name: SSH
         uses: appleboy/ssh-action@master
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }} 
