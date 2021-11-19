@@ -13,4 +13,6 @@ jobs:
       
 
       - name: build
+        run: ls
         run: jar cf jar-file .
+        run: ls
