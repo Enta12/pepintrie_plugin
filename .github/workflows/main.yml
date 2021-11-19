@@ -24,10 +24,10 @@ jobs:
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }} 
           known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
-      - name: test
-        run: ${{ secrets.SSH_PRIVATE_KEY }} > ~/test && cat ~/test
       - name: Adding Known Hosts
         run: ssh-keyscan -H test.pepintrie.fr >> ~/.ssh/known_hosts
+      - name: test
+        run: cat ~/.ssh/known_hosts
       - name: deploy
         run: ssh -oStrictHostKeyChecking=no serveurdev@test.pepintrie.fr ./launch.sh
 
