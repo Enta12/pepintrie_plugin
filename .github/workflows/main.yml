@@ -13,6 +13,4 @@ jobs:
       
 
       - name: build
-        run: ls
-        run: jar cf jar-file .
-        run: ls
+        run: ls && jar cf jar-file . && ls
