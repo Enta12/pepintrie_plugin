@@ -26,6 +26,6 @@ jobs:
           username: serverdev
           debug: true
           port: 22
-          script: |
+          script: 
             ./launch.sh
 
