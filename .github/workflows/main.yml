@@ -24,6 +24,7 @@ jobs:
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }} 
           username: serverdev
+          debug: true
           port: 22
           script: |
             ./launch.sh
