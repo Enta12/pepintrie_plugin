@@ -27,7 +27,7 @@ public class Gods implements Serializable{
 	
 	public boolean deleteAGod(String godName) {
 		if(gods.containsKey(godName)) {
-			Bukkit.broadcastMessage(gods.get(godName).getColorName() + "§f a fini son règne");
+			Bukkit.broadcastMessage(gods.get(godName).getColorName() + "&f a fini son rÃ¨gne");
 			gods.remove(godName);
 			return true;
 		}
@@ -51,11 +51,14 @@ public class Gods implements Serializable{
 			else if(type == GodsType.CLIFF) {
 				god = new CliffGod(name);
 			}
+			else if(type == GodsType.CAVE) {
+				god = new CaveGod(name);
+			}
 			else {
 				return false;
 			}
 			gods.put(name, god);
-			Bukkit.broadcastMessage(god.getColorName() + " §f commence un règne");
+			Bukkit.broadcastMessage(god.getColorName() + "&f commence un rÃ¨gne");
 			
 		}
 		return false;
