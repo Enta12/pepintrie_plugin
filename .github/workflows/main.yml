@@ -16,10 +16,12 @@ jobs:
     needs: linter
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
+        uses: vazco/github-actions-branch-name@v1
+        id: branch
+      - name: Echo branch name
+        run: echo "${{ steps.branch.outputs.branch_name }}"
 
       - name: SSH
         uses: garygrossgarten/github-action-ssh@release
@@ -27,5 +29,5 @@ jobs:
           privateKey: ${{ secrets.SSH_PRIVATE_KEY }} 
           username: serverdev
           host: test.pepintrie.fr
-          command : ./launch.sh ${{extract_branch}}
+          command : ./launch.sh ${{ steps.branch.outputs.branch_name }}
 
