@@ -6,15 +6,12 @@ on:
       - 'main'
 
 jobs:
-  build:
+  linter:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - name: install-java
-        run: sudo apt update && sudo apt -y install default-jdk
-      - name: build plugin
-        run: jar cf plugin.jar .
+      - name: linter
+        run: echo "todo"
   deploy:
     needs: build
     runs-on: ubuntu-latest
