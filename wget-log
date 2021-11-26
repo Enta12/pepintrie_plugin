@@ -1,11 +1,0 @@
---2021-11-26 15:24:04--  https://gradle.org/next-steps/?version=7.3
-Resolving gradle.org (gradle.org)... 104.18.191.9, 104.18.190.9, 2606:4700::6812:be09, ...
-Connecting to gradle.org (gradle.org)|104.18.191.9|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: unspecified [text/html]
-Saving to: ‘index.html?version=7.3’
-
-index.html?version=     [<=>                 ]       0  --.-KB/s               index.html?version=     [ <=>                ]  27,87K  --.-KB/s    in 0,001s  
-
-2021-11-26 15:24:04 (20,4 MB/s) - ‘index.html?version=7.3’ saved [28538]
-

@@ -25,5 +25,5 @@ jobs:
           privateKey: ${{ secrets.SSH_PRIVATE_KEY }} 
           username: serverdev
           host: test.pepintrie.fr
-          command : ./launch.sh
+          command : ./launch.sh ${GITHUB_REF#refs/heads/}
 
