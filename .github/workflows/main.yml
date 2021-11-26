@@ -13,7 +13,7 @@ jobs:
       - name: linter
         run: echo "todo"
   deploy:
-    needs: build
+    needs: linter
     runs-on: ubuntu-latest
     steps:
       - name: SSH
