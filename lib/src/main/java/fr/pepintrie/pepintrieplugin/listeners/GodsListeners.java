@@ -144,22 +144,25 @@ public class GodsListeners implements Listener {
 	public void onJoin(PlayerJoinEvent event) {
 		if (main.getGods().playerHaveAGod(event.getPlayer().getUniqueId())) {
 			Random random = new Random();
-			God god = main.getGods().getPlayerGod(event.getPlayer().getUniqueId());
-			taskID.put(event.getPlayer().getUniqueId(),
-					Bukkit.getScheduler().scheduleSyncRepeatingTask(main, new Runnable() {
-
-						@Override
-						public void run() {
-							main.getGods().getAltarFromAltarAndGodName(event.getPlayer().getName(), god.getName())
-									.createNewQuest(event.getPlayer(), random.nextInt(100));
-						}
-					}, random.nextInt(28800), random.nextInt(28800)));
+			taskID.put(event.getPlayer().getUniqueId(),ceateQuestTask(event.getPlayer.getUniqueId(), main.getGods().getPlayerGod(event.getPlayer().getUniqueId())));
 		}
 	}
 
+	public int ceateQuestTask(UUID player, God god){
+		return Bukkit.getScheduler().scheduleSyncRepeatingTask(main, new Runnable() {
+
+			@Override
+			public void run() {
+				main.getGods().getAltarFromAltarAndGodName(event.getPlayer().getName(), god.getName())
+						.createNewQuest(event.getPlayer(), random.nextInt(100));
+				taskID.put(player, ceateQuestTask(player, god));
+			}
+		}, random.nextInt(28800), random.nextInt(28800));
+	}	
+
 	@EventHandler
 	public void onDisconet(PlayerQuitEvent event) {
-		if (taskID.containsKey(event.getPlayer().getUniqueId()))
+		if (gods.getPlayerGodType(event.getPlayer.getUniqueId()) && taskID.containsKey(event.getPlayer().getUniqueId()))
 			Bukkit.getScheduler().cancelTask(taskID.get(event.getPlayer().getUniqueId()));
 	}
 }
