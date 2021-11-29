@@ -118,7 +118,7 @@ public class Altar implements Serializable{
 			}
 		}
 		else if (event <50) {
-			// find  an relic
+			this.god.addPower(god.addPower(size));
 		}
 		else if(event <90) {
 			// sacrify

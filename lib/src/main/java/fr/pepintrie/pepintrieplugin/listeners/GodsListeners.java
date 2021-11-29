@@ -144,12 +144,13 @@ public class GodsListeners implements Listener {
 	public void onJoin(PlayerJoinEvent event) {
 		if (main.getGods().playerHaveAGod(event.getPlayer().getUniqueId())) {
 			Random random = new Random();
-			taskID.put(event.getPlayer().getUniqueId(),ceateQuestTask(event.getPlayer.getUniqueId(), main.getGods().getPlayerGod(event.getPlayer().getUniqueId())));
+			taskID.put(event.getPlayer().getUniqueId(),ceateQuestTask(random, event.getPlayer.getUniqueId(),
+			 main.getGods().getPlayerGod(event.getPlayer().getUniqueId())));
 		}
 	}
 
-	public int ceateQuestTask(UUID player, God god){
-		return Bukkit.getScheduler().scheduleSyncRepeatingTask(main, new Runnable() {
+	public int ceateQuestTask(Random random, UUID player, God god){
+		return Bukkit.getScheduler().scheduleSyncDelayedTask(main, new Runnable() {
 
 			@Override
 			public void run() {
@@ -157,7 +158,7 @@ public class GodsListeners implements Listener {
 						.createNewQuest(event.getPlayer(), random.nextInt(100));
 				taskID.put(player, ceateQuestTask(player, god));
 			}
-		}, random.nextInt(28800), random.nextInt(28800));
+		}, random.nextInt(288000));
 	}	
 
 	@EventHandler
