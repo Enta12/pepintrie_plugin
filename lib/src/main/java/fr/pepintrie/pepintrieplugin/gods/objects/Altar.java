@@ -84,7 +84,7 @@ public class Altar implements Serializable{
 			}
 			else if(player.getInventory().addItem(god.createARelic()).size() == 0) player.sendMessage(god.getColorName() + " : &fVoici un cadeau pour toi mon fidèle serviteur.");
 			else {
-				player.sendMessage("Je voulais te faire un cadeau mais tu n'avais pas de place ... donc je l'ai absorbé");
+				player.sendMessage(god.getColorName() + "Je voulais te faire un cadeau mais tu n'avais pas de place ... donc je l'ai absorbé");
 				god.addPower(size*(random.nextInt(9)+1));
 			}
 		}
