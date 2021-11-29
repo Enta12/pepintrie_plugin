@@ -19,7 +19,7 @@ public abstract class God implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
-	protected static String[] types = {"nether", "sea", "economy"};
+	protected static String[] types = {"nether", "sea", "economy", "cave", "cliff"};
 	
 	protected HashMap<String, Altar> altars = new HashMap<>();
 	protected List<UUID> believerUUID = new ArrayList<>();
