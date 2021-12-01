@@ -172,18 +172,5 @@ public abstract class Relic {
 	}
 	
 	
-	
-/*
-	void ItemStackItemStack setCompassTarget​(Material material, int utilisationLeft, String godName, String object, String effect, int powerNeed, String biome){
-		ItemStack relicItem = new ItemStack(material, 1);
-		ItemMeta customM = relicItem.getItemMeta();
-		customM.setDisplayName(object + " de " + godName);
-		customM.addEnchant(Enchantment.ARROW_INFINITE, 200, true);
-		customM.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-		customM.setLore(Arrays.asList("Cette objet est une relique de " + godName, effect, utilisationLeft + " restante sur " + utilisationLeft, "L'utilisation necessite " + powerNeed));
-		relicItem.setItemMeta(customM);
-		return relicItem;
-	}
-	*/
 
 }
