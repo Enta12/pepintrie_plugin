@@ -51,6 +51,9 @@ public class Gods implements Serializable{
 			else if(type == GodsType.CLIFF) {
 				god = new CliffGod(name);
 			}
+			else if(type == GodsType.CAVE) {
+				god = new CaveGod(name);
+			}
 			else {
 				return false;
 			}
