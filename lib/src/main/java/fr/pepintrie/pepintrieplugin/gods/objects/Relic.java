@@ -171,6 +171,26 @@ public abstract class Relic {
 		return relicItem;
 	}
 	
-	
+	public static ItemStack getCaveRelic(int utilisationLeft, String godName, String altar,String object) {
+		ItemStack relicItem = new ItemStack(Material.BLAZE_ROD, 1);
+		ItemMeta customM = relicItem.getItemMeta();
+		
+		Random random = new Random();
+		int lenght = random.nextInt(25);
+		int width = random.nextInt(12);
+		int height = random.nextInt(12);
+		int powerNeed = 1 + ((lenght + width + height)/10);
+		String zone = ((width*2)+1) + " de large, " + ((lenght*2)+1) + " de hauteur," + ((height*2)+1) + " de longueur,";
+
+		//set enchantment
+		
+		customM.setDisplayName(object + " de " + godName);
+		customM.addEnchant(Enchantment.ARROW_INFINITE, 255, true); //TODO
+		customM.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		customM.setLore(Arrays.asList("Cette objet est une relique de " + godName, "Pour casser une zone en face de  " + zone + "centré sur vous", "L'utilisation necessite " + powerNeed, utilisationLeft + " utilisations restante sur " + utilisationLeft));
+		relicItem.setItemMeta(customM);
+		return relicItem;
+	}
+
 
 }
