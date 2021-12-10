@@ -41,8 +41,10 @@ public class AltarListeners implements Listener{
 			if(altar != null) {
 				if(isPlayerAltar(altar, event.getPlayer().getUniqueId())) {
 					for(Quest quest : altar.getQuests()) {
-						if(quest.getIsAnAltarGoal()) event.getPlayer().sendMessage(altar.getGod().getColorName() + ": &fJe veux que tu améliore mon temple en " + quest.getDescription());
-						else event.getPlayer().sendMessage(altar.getGod().getColorName() + ":&f Je veux que tu " + quest.getDescription());
+						God god = altar.getGod();
+						if(quest.getIsAnAltarGoal()) event.getPlayer().sendMessage(god.getColorName() + ": &fJe veux que tu améliore mon temple en " + quest.getDescription());
+						else event.getPlayer().sendMessage(god.getColorName() + ":&f Je veux que tu " + quest.getDescription());
+						event.getPlayer().sendMessage(god.getColorName() + ": &fJ'ai " + god.getPower() + " pouvoir");
 					}
 				}
 			}
