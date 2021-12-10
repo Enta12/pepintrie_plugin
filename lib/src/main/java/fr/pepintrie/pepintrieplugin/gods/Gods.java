@@ -220,9 +220,5 @@ public class Gods implements Serializable{
 			}
 		}
 		return null;
-	}
-
-
-	
-	
+	}	
 }
