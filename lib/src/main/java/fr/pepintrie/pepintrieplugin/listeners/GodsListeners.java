@@ -47,6 +47,10 @@ public class GodsListeners implements Listener {
 			Location candleLocation = event.getBlock().getLocation();
 			isATemple(Material.PACKED_ICE, candleLocation, GodsType.CLIFF, event.getPlayer());
 		}
+		else if (event.getBlock().getType() == Material.BLACK_CANDLE) {
+			Location candleLocation = event.getBlock().getLocation();
+			isATemple(Material.DIAMOND_BLOCK, candleLocation, GodsType.CAVE, event.getPlayer());
+		}
 
 	}
 
@@ -135,7 +139,7 @@ public class GodsListeners implements Listener {
 	public void onBreakBlock(BlockBreakEvent event) {
 		Block block = event.getBlock();
 		if (block.getType() == Material.PRISMARINE_BRICKS || block.getType() == Material.NETHERITE_BLOCK
-				|| block.getType() == Material.EMERALD_BLOCK || block.getType() == Material.PACKED_ICE) {
+				|| block.getType() == Material.EMERALD_BLOCK || block.getType() == Material.PACKED_ICE || block.getType() == Material.DIAMOND_BLOCK) {
 			main.getGods().removeAPossibleAltar(block.getLocation());
 		}
 	}
@@ -163,7 +167,7 @@ public class GodsListeners implements Listener {
 
 	@EventHandler
 	public void onDisconet(PlayerQuitEvent event) {
-		if (gods.getPlayerGodType(event.getPlayer.getUniqueId()) && taskID.containsKey(event.getPlayer().getUniqueId()))
-			Bukkit.getScheduler().cancelTask(taskID.get(event.getPlayer().getUniqueId()));
+		if (gods.getPlayerGodType(event.getPlayer.getUniqueId()))
+		);
 	}
 }

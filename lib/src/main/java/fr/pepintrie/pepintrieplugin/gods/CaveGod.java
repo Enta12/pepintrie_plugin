@@ -8,12 +8,12 @@ import fr.pepintrie.pepintrieplugin.gods.objects.Relic;
 public class CaveGod extends God {
 
 	private static final long serialVersionUID = 1L;
+	color = "&0";
+	type = GodsType.CAVE;	
 
 
 	public CaveGod(String name) {
-		super(name);
-		color = "&0";
-		type = GodsType.CAVE;	
+		super(name, Particle.PORTAL, 1500);
 	}
 
 

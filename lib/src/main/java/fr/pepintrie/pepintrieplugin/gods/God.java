@@ -26,10 +26,12 @@ public abstract class God implements Serializable{
 	protected Player priest;
 	protected int power;
 	protected String name;
-	protected String color;
-	protected GodsType type;
+	protected static String color;
+	protected static GodsType type;
 	protected List<ArrayList<Goal>> goals = new ArrayList<ArrayList<Goal>>();
 	protected static Random random = new Random();
+	protected static Particule particule;
+	protected static int particulesQuantity;
 	
 	public God(String name) {
 		setName(name);
@@ -38,6 +40,10 @@ public abstract class God implements Serializable{
 	
 	public List<UUID> getBelieverUUID(){
 		return believerUUID;
+	}
+
+	public void spawnParticule(Location location){
+		location.getWorld().spawnParticle(this.particule, location, this.quantity);
 	}
 	
 	protected abstract void getGoals();

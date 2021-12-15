@@ -23,7 +23,7 @@ public class AltarListeners implements Listener{
 	}
 	
 	private Altar getAnAltar(Block blockClicked) {
-		if(blockClicked.getType() == Material.NETHERITE_BLOCK || blockClicked.getType() == Material.PRISMARINE_BRICKS || blockClicked.getType() == Material.EMERALD_BLOCK) {
+		if(blockClicked.getType() == Material.NETHERITE_BLOCK || blockClicked.getType() == Material.PRISMARINE_BRICKS || blockClicked.getType() == Material.EMERALD_BLOCK || block.getType() == Material.PACKED_ICE || block.getType() == Material.DIAMOND_BLOCK) {
 			return main.getGods().getAPossibleAltar(blockClicked.getLocation());
 		}
 		return null;

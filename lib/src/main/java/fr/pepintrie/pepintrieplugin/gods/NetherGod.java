@@ -11,11 +11,13 @@ public class NetherGod extends God{
 
 
 	public NetherGod(String name) {
-		super(name);
+		super(name, Particle.PORTAL, 1500);
+		this.particule = Particle.PORTAL
+		this.particulesQuantity
+		this.
 		color = "&4";
 		type = GodsType.NETHER;	
 	}
-
 
 	@Override
 	protected void getGoals() {
