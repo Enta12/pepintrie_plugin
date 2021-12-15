@@ -50,7 +50,6 @@ public class CliffGod extends God {
 
 	@Override
 	public ItemStack createARelic() {
-		//TODO
-		return null;
+		return Relic.getNetherRelic(random.nextInt(10)+1, getColorName(), "Compas");
 	}
 }
